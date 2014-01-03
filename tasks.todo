@@ -1,0 +1,60 @@
+Backlog:
+ ☐ Read first 5 algorithms
+ ☐ Analyze input/output requirements
+   Different I/O
+   Cannot reuse methods
+   Algs are classes
+   * I/O methods
+     * Read from Console
+     * Read from file
+     * Constructor with parameters
+     * Constructor with file param
+     * ?Constructor without params
+   * Method for main algortihm
+   * Method for Ouput to console
+ ☐ First design for classes
+ ☐ Implement first 6 algorithms
+
+Algoritmi:
+  Metode de interpolare a functiilor continue:
+    ☐ Diferente divizate @page-7
+    ☐ Polinomul de interpolare al lui Lagrange @page-9
+      ☐ Algoritmul lui Aitken @page-10
+      ☐ Algoritmul lui Newton @page-12
+    ☐ Polinomul de interpolare a lui Taylor @page-15
+    ☐ Interpolarea Hermite neteda pe portiuni @page-16
+    ☐ Interpolare spline liniara @page-19
+    ☐ Interpolare spline parabolica @page-20
+    ☐ Interpolare spline cubica @page-22
+      ☐ Spline cubic complet general de conditii bilocale @page-22
+      ☐ Spline cubic natural generat de conditii initiale @page-25
+  Ajustarea in medie patratica:
+    ☐ Metoda celor mai mici patrate: dreapta de regresie @page-29
+    ☐ Metoda celor mai mici patrate: parabola de regresie @page-31
+  Formule de cuadratura:
+    ☐ Exemple de functii continue cu primitiva in forma de serie innita @page-35
+    ☐ Formula trapezului @page-37
+    ☐ Formula perturbata a trapezului @page-42
+    ☐ Formula lui Simpson @page-44
+    ☐ Formula lui Newton @page-48
+  Rezolvarea sistemelor liniare:
+    ☐ Metoda directa a lui Gauss @page-51
+    ☐ Metoda iterativa a lui Iacobi @page-53
+  Metode numerice pentru ecuatii neliniare:
+    ☐ Metoda injumatatirii intervalului @page-57
+    ☐ Metoda aproximatiilor succesive pentru ecuatii scalare @page-59
+    ☐ Metoda aproximatiilor succesive pentru sisteme neliniare @page-61
+    ☐ Metoda lui Newton pentru ecuatii scalare @page-64
+    ☐ Metoda lui Newton pentru sisteme neliniare @page-66
+    ☐ Metoda coardei @page-70
+  Metode numerice pentru ecuatii diferentiale:
+    ☐ Metoda retelelor @page-75
+    ☐ Metoda lui Euler @page-77
+    ☐ Metoda lui Heun @page-79
+    ☐ Metoda Runge-Kutta @page-81
+    ☐ Metoda aproximatiilor succesive @page-83
+
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ Test @done (13-11-25 19:54) @project(Backlog)
