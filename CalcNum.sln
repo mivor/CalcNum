@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalcNum", "CalcNum\CalcNum.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsCalcNum", "TestsCalcNum\TestsCalcNum.csproj", "{D73C8631-A0C0-4237-886C-176F08CA1B8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibCalcNum", "LibCalcNum\LibCalcNum.csproj", "{2FB94EE3-B54B-4503-9850-D1F24BD9274D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D73C8631-A0C0-4237-886C-176F08CA1B8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D73C8631-A0C0-4237-886C-176F08CA1B8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D73C8631-A0C0-4237-886C-176F08CA1B8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FB94EE3-B54B-4503-9850-D1F24BD9274D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FB94EE3-B54B-4503-9850-D1F24BD9274D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FB94EE3-B54B-4503-9850-D1F24BD9274D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FB94EE3-B54B-4503-9850-D1F24BD9274D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
