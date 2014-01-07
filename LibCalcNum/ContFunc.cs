@@ -10,28 +10,32 @@ namespace LibCalcNum
     {
         public int OrdMax { get; private set; }
         public double[] Noduri { get; private set; }
+        public double[] ValNoduri { get; private set; }
         public double[,] DifDiv { get; private set; }
         public double DifDivFinal { get; private set; }
         public func F { get; private set; }
 
         public delegate double func(double x);
 
-        public ContFunc() 
+        public ContFunc(double[] pNoduri, func pF) 
         {
-            
-        }
-        public ContFunc(int pOrdMax, func pf, double[] pNoduri)
-        {
-            OrdMax = pOrdMax;
             Noduri = pNoduri;
-            F = pf;
+            F = pF;
+            ValNoduri = new double[Noduri.Length];
+            for (int i = 0; i < Noduri.Length; i++)
+            {
+                ValNoduri[i] = F(Noduri[i]);
+            }
+        }
+        public ContFunc(double[] pNoduri, double[] pValNodrui)
+        {
+            Noduri = pNoduri;
+            ValNoduri = pValNodrui;
         }
 
-        public void DifDivizate(int pOrdMax, func pf, double[] pNoduri)
+        public void GetDifDiv(int pOrdMax)
         {
             OrdMax = pOrdMax;
-            F = pf;
-            Noduri = pNoduri;
 
             DifDiv = new double[OrdMax, OrdMax];
 

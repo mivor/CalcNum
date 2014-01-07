@@ -14,9 +14,13 @@ namespace CalcNum
             int ordMax = 5;
             double[] nod = new double[] { -3, -1, 0, 1, 1.5 };
             ContFunc.func f = x => 1 / (1 + x * x);
-            ContFunc lib = new ContFunc();
+            ContFunc lib = new ContFunc(nod, f);
 
-            lib.DifDivizate(ordMax, f, nod);
+            lib.GetDifDiv(ordMax);
+            Console.WriteLine("OUT: {0}", lib.DifDivFinal);
+            // 0.3076
+            // 1.04768
+            Console.ReadLine();
         }
     }
 }
