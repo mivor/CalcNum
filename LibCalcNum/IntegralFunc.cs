@@ -119,8 +119,9 @@ namespace LibCalcNum
             {
                 prevNode = curentNode;
                 curentNode = new Node(LimitA + i * h / Evaluations, F);
-                double y = prevNode.X + ( curentNode.X - prevNode.X) / 3;
-                double z = prevNode.X + 2 * ( curentNode.X - prevNode.X) / 3;
+                double y = ( curentNode.X - prevNode.X) / 3;
+                double z = 2 * y + prevNode.X;
+                y = y + prevNode.X;
                 sumS += curentNode.Fx + prevNode.Fx;
                 sumU += F(y);
                 sumV += F(z);
