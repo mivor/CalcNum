@@ -29,5 +29,30 @@ namespace TestsCalcNum
             Assert.That(graph.RegressionLine.B, Is.EqualTo(result.B));
         }
 
+        [Test]
+        public void RegressionParabola()
+        {
+            GraphFunction.RegParabola result = new GraphFunction.RegParabola(-1, 2, 3);
+            List<Node> n = new List<Node>();
+            n.Add(new Node(-4, -21));
+            n.Add(new Node(-3, -12));
+            n.Add(new Node(-2, -5));
+            n.Add(new Node(-1, 0));
+            n.Add(new Node(0, 3));
+            n.Add(new Node(1, 4));
+            n.Add(new Node(2, 3));
+            n.Add(new Node(3, 0));
+            n.Add(new Node(4, -5));
+            n.Add(new Node(5, -12));
+            n.Add(new Node(6, -21));
+            graph = new GraphFunction(n);
+
+            graph.GetRegressionParabola();
+
+            Assert.That(graph.RegressionParabola.A, Is.EqualTo(result.A));
+            Assert.That(graph.RegressionParabola.B, Is.EqualTo(result.B));
+            Assert.That(graph.RegressionParabola.C, Is.EqualTo(result.C));
+        }
+
     }
 }
