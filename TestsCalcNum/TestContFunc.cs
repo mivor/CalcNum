@@ -19,12 +19,27 @@ namespace TestsCalcNum
             int ordMax = 5;
             double[] nod = new double[] {-3, -1, 0, 1, 1.5};
             ContFunc.func f = x => 1 / (1 + x * x);
-            ContFunc lib = new ContFunc(nod, f);
+            ContFunc polinom = new ContFunc(nod, f);
 
-            lib.GetDifDiv(ordMax);
+            polinom.GetDifDiv(ordMax);
 
-            Assert.That(lib.DifDivFinal, Is.EqualTo(result).Within(0.001));
+            Assert.That(polinom.DifDivFinal, Is.EqualTo(result).Within(0.001));
         }
 
+        [Test]
+        public void LagrangeAitken()
+        {
+            double result = Math.Pow(1.15, 0.33333);
+            int gradMax = 5;
+            double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
+            double[] valNod = new double[] { 1, 1.032, 1.091, 1.145, 1.17 };
+            double errMax = 0.001;
+            double findNode = 1.15;
+
+            ContFunc polinom = new ContFunc(nod,valNod);
+            double value = polinom.AproxLagAitken(findNode, gradMax, errMax);
+
+            Assert.That(value, Is.EqualTo(result).Within(errMax));
+        }
     }
 }
