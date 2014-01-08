@@ -51,18 +51,15 @@ namespace LibCalcNum
             FinalDivDif = DivDif[maxOrd - 1, 0];
         }
 
-
-        public double InterpolateAitken(double findNode, int maxGrad, double maxErr)
+        private void sortNodesRelativeToNode(double baseNode)
         {
+            // sort nodes according to distance from baseNode
             double tmp;
-            double[,] matrix = new double[maxGrad, maxGrad];
-
-            // sort nodes according to distance from findNode
-            for (int i = 0; i < maxGrad; i++)
+            for (int i = 0; i < Nodes.Length; i++)
             {
-                for (int j = i + 1; j < maxGrad; j++)
+                for (int j = i + 1; j < Nodes.Length; j++)
                 {
-                    if (Nodes[i] - findNode > Nodes[j] - findNode)
+                    if (Nodes[i] - baseNode > Nodes[j] - baseNode)
                     {
                         tmp = Nodes[i];
                         Nodes[i] = Nodes[j];
@@ -74,6 +71,13 @@ namespace LibCalcNum
                     }
                 }
             }
+        }
+
+        public double InterpolateAitken(double findNode, int maxGrad, double maxErr)
+        {
+            double[,] matrix = new double[maxGrad, maxGrad];
+
+            sortNodesRelativeToNode(findNode);
 
             // initialize first column of matrix
             for (int row = 0; row < maxGrad; row++)
@@ -102,7 +106,7 @@ namespace LibCalcNum
 
         public double InterpolateNewton(double findNode, int maxGrad, double maxErr)
         {
-            throw new NotImplementedException();
+            sortNodesRelativeToNode(findNode);
         }
     }
 }
