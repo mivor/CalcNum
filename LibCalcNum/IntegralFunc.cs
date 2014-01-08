@@ -48,44 +48,22 @@ namespace LibCalcNum
 
         }
 
-
         public void AproxTrapezoidClassic(double evaluations)
         {
             this.Evaluations = evaluations;
             double h = LimitB - LimitA;
-            double sum = 0;
-            double curentFx = F(LimitA);
-            double prevFx;
 
-            for (int i = 1; i < Evaluations; i++)
-            {
-                prevFx = curentFx;
-                curentFx = F(LimitA + i * h / Evaluations);
-                sum += curentFx + prevFx;
-            }
-
-            Solution =  h / (2 * Evaluations) * sum;
+            Solution =  h / (2 * Evaluations) * GetTrapezoidSum();
         }
 
         public void AproxEulerMacLaurin(Func<double, double> derivate, double evaluations)
         {
             this.Evaluations = evaluations;
             double h = LimitB - LimitA;
-            double sum = 0;
-            double curentFx = F(LimitA);
-            double prevFx;
 
-            for (int i = 1; i < Evaluations; i++)
-            {
-                prevFx = curentFx;
-                curentFx = F(LimitA + i * h / Evaluations);
-                sum += curentFx + prevFx;
-            }
-
-            Solution = h / (2 * Evaluations) * sum - Math.Pow(h, 2) / (12 * Math.Pow(Evaluations, 2)
+            Solution = h / (2 * Evaluations) * GetTrapezoidSum() - Math.Pow(h, 2) / (12 * Math.Pow(Evaluations, 2)
                 * (derivate(LimitB) - derivate(LimitA)));
         }
-
 
         //
         // private methods
@@ -94,6 +72,17 @@ namespace LibCalcNum
         private double GetTrapezoidSum()
         {
             double sum = 0;
+            double h = LimitB - LimitA;
+            double curentFx = F(LimitA);
+            double prevFx;
+
+            for (int i = 1; i < Evaluations; i++)
+            {
+                prevFx = curentFx;
+                curentFx = F(LimitA + i * h / Evaluations);
+                sum += curentFx + prevFx;
+            }
+
             return sum;
         }
     }
