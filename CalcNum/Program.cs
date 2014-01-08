@@ -30,7 +30,7 @@ namespace CalcNum
 
             ContFunc polinom = new ContFunc(nod, valNod);
 
-            double value = polinom.AproxLagAitken(findNode, gradMax, errMax);
+            double value = polinom.InterpolateAitken(findNode, gradMax, errMax);
             
             Console.ReadLine();
         }

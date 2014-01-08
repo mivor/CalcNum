@@ -8,94 +8,101 @@ namespace LibCalcNum
 {
     public class ContFunc
     {
-        public double[] Noduri { get; private set; }
-        public double[] ValNoduri { get; private set; }
-        public double[,] DifDiv { get; private set; }
-        public double DifDivFinal { get; private set; }
-        public func F { get; private set; }
+        public double[] Nodes { get; private set; }
+        public double[] ValNodes { get; private set; }
+        public double[,] DivDif { get; private set; }
+        public double FinalDivDif { get; private set; }
+        public Polinom F { get; private set; }
 
-        public delegate double func(double x);
+        public delegate double Polinom(double x);
 
-        public ContFunc(double[] pNoduri, func pF) 
+        public ContFunc(double[] pNodes, Polinom pF) 
         {
-            Noduri = pNoduri;
+            Nodes = pNodes;
             F = pF;
-            ValNoduri = new double[Noduri.Length];
-            for (int i = 0; i < Noduri.Length; i++)
+            ValNodes = new double[Nodes.Length];
+            for (int i = 0; i < Nodes.Length; i++)
             {
-                ValNoduri[i] = F(Noduri[i]);
+                ValNodes[i] = F(Nodes[i]);
             }
         }
-        public ContFunc(double[] pNoduri, double[] pValNodrui)
+        public ContFunc(double[] pNoduri, double[] pValNodes)
         {
-            Noduri = pNoduri;
-            ValNoduri = pValNodrui;
+            Nodes = pNoduri;
+            ValNodes = pValNodes;
         }
 
-        public void GetDifDiv(int ordMax)
+        public void GetDivDif(int maxOrd)
         {
-            DifDiv = new double[ordMax, ordMax];
+            DivDif = new double[maxOrd, maxOrd];
 
-            for (int i = 0; i < ordMax; i++)
+            for (int i = 0; i < maxOrd; i++)
             {
-                DifDiv[i, 0] = F(Noduri[i]);
+                DivDif[i, 0] = F(Nodes[i]);
             }
-            for (int k = 1; k < ordMax; k++)
+            for (int k = 1; k < maxOrd; k++)
             {
-                for (int i = 0; i < (ordMax - k); i++)
+                for (int i = 0; i < (maxOrd - k); i++)
                 {
-                    DifDiv[i,k] = (DifDiv[i+1,k-1] - DifDiv[i,k-1]) / (Noduri[i+k] - Noduri[i]);
+                    DivDif[i,k] = (DivDif[i+1,k-1] - DivDif[i,k-1]) / (Nodes[i+k] - Nodes[i]);
                 }
             }
 
-            DifDivFinal = DifDiv[ordMax - 1, 0];
+            FinalDivDif = DivDif[maxOrd - 1, 0];
         }
 
 
-        public double AproxLagAitken(double findNode, int gradMax, double errMax)
+        public double InterpolateAitken(double findNode, int maxGrad, double maxErr)
         {
-            double temp;
-            double[,] matrix = new double[gradMax, gradMax];
+            double tmp;
+            double[,] matrix = new double[maxGrad, maxGrad];
 
             // sort nodes according to distance from findNode
-            for (int i = 0; i < gradMax; i++)
+            for (int i = 0; i < maxGrad; i++)
             {
-                for (int j = i + 1; j < gradMax; j++)
+                for (int j = i + 1; j < maxGrad; j++)
                 {
-                    if (Noduri[i] - findNode > Noduri[j] - findNode)
+                    if (Nodes[i] - findNode > Nodes[j] - findNode)
                     {
-                        temp = Noduri[i];
-                        Noduri[i] = Noduri[j];
-                        Noduri[j] = temp;
+                        tmp = Nodes[i];
+                        Nodes[i] = Nodes[j];
+                        Nodes[j] = tmp;
 
-                        temp = ValNoduri[i];
-                        ValNoduri[i] = ValNoduri[j];
-                        ValNoduri[j] = temp;
+                        tmp = ValNodes[i];
+                        ValNodes[i] = ValNodes[j];
+                        ValNodes[j] = tmp;
                     }
                 }
             }
 
             // initialize first column of matrix
-            for (int row = 0; row < gradMax; row++)
+            for (int row = 0; row < maxGrad; row++)
 			{
-                matrix[row, 0] = ValNoduri[row]; 
+                matrix[row, 0] = ValNodes[row]; 
 			}
 
             // search for value
-            for (int col = 1; col < gradMax; col++)
+            for (int col = 1; col < maxGrad; col++)
             {
-                for (int row = col; row < gradMax; row++)
+                for (int row = col; row < maxGrad; row++)
                 {
-                    matrix[row, col] = 1 / ( Noduri[row] - Noduri[col-1] )
-                        * (matrix[col-1, col-1] * (Noduri[row] - findNode) - matrix[row, col-1] * (Noduri[col-1] - findNode));
+                    matrix[row, col] = 1 / ( Nodes[row] - Nodes[col-1] )
+                        * (matrix[col-1, col-1] * (Nodes[row] - findNode) - matrix[row, col-1] * (Nodes[col-1] - findNode));
                 }
-                if (Math.Abs(matrix[col,col] - matrix[col-1,col-1]) < errMax)
+                if (Math.Abs(matrix[col,col] - matrix[col-1,col-1]) < maxErr)
                 {
+                    // Found right value!!!
                     return matrix[col, col];
                 }
             }
 
+            // if we are here we did NOT find an answer
             return double.NaN;
+        }
+
+        public double InterpolateNewton(double findNode, int maxGrad, double maxErr)
+        {
+            throw new NotImplementedException();
         }
     }
 }
