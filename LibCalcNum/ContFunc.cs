@@ -1,35 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibCalcNum
 {
     public class ContinousFunction
     {
-        public double[] Nodes { get; private set; }
-        public double[] ValNodes { get; private set; }
+        public List<Node> Nodes { get; private set; }
         public double[,] DivDif { get; private set; }
         public double FinalDivDif { get; private set; }
-        public Polinom F { get; private set; }
 
         public delegate double Polinom(double x);
 
+        public ContinousFunction(List<Node> pNodes)
+        {
+            Nodes = new List<Node>(pNodes);
+        }
+
         public ContinousFunction(double[] pNodes, Polinom pF) 
         {
-            Nodes = pNodes;
-            F = pF;
-            ValNodes = new double[Nodes.Length];
-            for (int i = 0; i < Nodes.Length; i++)
-            {
-                ValNodes[i] = F(Nodes[i]);
-            }
+            Nodes = ArrayToNodes(pNodes, pF);
         }
-        public ContinousFunction(double[] pNoduri, double[] pValNodes)
+
+        public ContinousFunction(double[] pNodes, double[] pValNodes)
         {
-            Nodes = pNoduri;
-            ValNodes = pValNodes;
+            Nodes = ArrayToNodes(pNodes, pValNodes);
         }
 
         public void GetDivDif(int maxOrd)
@@ -38,13 +32,15 @@ namespace LibCalcNum
 
             for (int row = 0; row < maxOrd; row++)
             {
-                DivDif[row, 0] = ValNodes[row];
+                DivDif[row, 0] = Nodes[row].Fx;
             }
+
             for (int col = 1; col < maxOrd; col++) //j
             {
                 for (int row = 0; row < (maxOrd - col); row++) //k
                 {
-                    DivDif[row,col] = ( DivDif[row+1,col-1] - DivDif[row,col-1] ) / ( Nodes[row+col] - Nodes[row] );
+                    DivDif[row,col] = ( DivDif[row+1,col-1] - DivDif[row,col-1] ) 
+                        / ( Nodes[row+col].X - Nodes[row].X );
                 }
             }
 
@@ -54,20 +50,15 @@ namespace LibCalcNum
         private void sortNodesRelativeToNode(double baseNode)
         {
             // sort nodes according to distance from baseNode
-            double tmp;
-            for (int i = 0; i < Nodes.Length; i++)
+            for (int i = 0; i < Nodes.Count; i++)
             {
-                for (int j = i + 1; j < Nodes.Length; j++)
+                for (int j = i + 1; j < Nodes.Count; j++)
                 {
-                    if (Math.Abs(Nodes[i] - baseNode) > Math.Abs(Nodes[j] - baseNode))
+                    if (Math.Abs(Nodes[i].X - baseNode) > Math.Abs(Nodes[j].X - baseNode))
                     {
-                        tmp = Nodes[i];
+                        var tmp = Nodes[i];
                         Nodes[i] = Nodes[j];
                         Nodes[j] = tmp;
-
-                        tmp = ValNodes[i];
-                        ValNodes[i] = ValNodes[j];
-                        ValNodes[j] = tmp;
                     }
                 }
             }
@@ -82,7 +73,7 @@ namespace LibCalcNum
             // initialize first column of matrix
             for (int row = 0; row < maxGrad; row++)
 			{
-                matrix[row, 0] = ValNodes[row]; 
+                matrix[row, 0] = Nodes[row].Fx; 
 			}
 
             // search for value
@@ -90,8 +81,9 @@ namespace LibCalcNum
             {
                 for (int row = col; row < maxGrad; row++)
                 {
-                    matrix[row, col] = 1 / ( Nodes[row] - Nodes[col-1] )
-                        * (matrix[col-1, col-1] * (Nodes[row] - findNode) - matrix[row, col-1] * (Nodes[col-1] - findNode));
+                    matrix[row, col] = 1 / ( Nodes[row].X - Nodes[col-1].X )
+                        * (matrix[col-1, col-1] * (Nodes[row].X - findNode) 
+                        - matrix[row, col-1] * (Nodes[col-1].X - findNode));
                 }
                 if (Math.Abs(matrix[col,col] - matrix[col-1,col-1]) < maxErr)
                 {
@@ -110,14 +102,14 @@ namespace LibCalcNum
 
             GetDivDif(maxGrad);
 
-            double result = ValNodes[0];
+            double result = Nodes[0].Fx;
             for (int k = 1; k < maxGrad; k++)
             {
                 double prevResult = result;
                 double multiplier = 1;
                 for (int i = 0; i < k; i++)
                 {
-                    multiplier *= (findNode - Nodes[i]);
+                    multiplier *= (findNode - Nodes[i].X);
                 }
 
                 result = prevResult + (multiplier * DivDif[0, k]);
@@ -136,16 +128,39 @@ namespace LibCalcNum
         public double InterpolateTaylor(double findNode, int maxGrad)
         {
             double[] factorial = new double[maxGrad];
-            double result = ValNodes[0];
-            double constant = findNode - Nodes[0];
+            double result = Nodes[0].Fx;
+            double constant = findNode - Nodes[0].X;
             factorial[0] = 1;
 
             for (int k = 1; k < maxGrad; k++)
             {
                 factorial[k] = factorial[k - 1] * k;
-                result = result + 1 / factorial[k] * Math.Pow(constant, k) * ValNodes[k];
+                result = result + 1 / factorial[k] * Math.Pow(constant, k) * Nodes[k].Fx;
             }
 
+            return result;
+        }
+
+        private List<Node> ArrayToNodes(double[] node, double[] valNode)
+        {
+            List<Node> result = new List<Node>();
+            for (int i = 0; i < valNode.Length; i++)
+            {
+                Node n = node.Length != 1 ? new Node(node[i], valNode[i]) : new Node(node[0], valNode[i]);
+                result.Add(n);
+            }
+            return result;
+        }
+
+        private List<Node> ArrayToNodes(double[] node, Polinom f)
+        {
+            List<Node> result = new List<Node>();
+            for (int i = 0; i < node.Length; i++)
+            {
+                double valNode = f(node[i]);
+                Node n = new Node(node[i], valNode);
+                result.Add(n);
+            }
             return result;
         }
     }
