@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibCalcNum
 {
-    public class ContFunc
+    public class ContinousFunction
     {
         public double[] Nodes { get; private set; }
         public double[] ValNodes { get; private set; }
@@ -16,7 +16,7 @@ namespace LibCalcNum
 
         public delegate double Polinom(double x);
 
-        public ContFunc(double[] pNodes, Polinom pF) 
+        public ContinousFunction(double[] pNodes, Polinom pF) 
         {
             Nodes = pNodes;
             F = pF;
@@ -26,7 +26,7 @@ namespace LibCalcNum
                 ValNodes[i] = F(Nodes[i]);
             }
         }
-        public ContFunc(double[] pNoduri, double[] pValNodes)
+        public ContinousFunction(double[] pNoduri, double[] pValNodes)
         {
             Nodes = pNoduri;
             ValNodes = pValNodes;

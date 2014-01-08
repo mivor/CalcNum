@@ -12,7 +12,7 @@ namespace TestsCalcNum
     class TestContFunc
     {
 
-        ContFunc polinom;
+        ContinousFunction polinom;
 
         [Test]
         public void DiferenteDivizate()
@@ -20,8 +20,8 @@ namespace TestsCalcNum
             double result = 0.3076;
             int maxOrd = 5;
             double[] nod = new double[] {-3, -1, 0, 1, 1.5};
-            ContFunc.Polinom f = x => 1 / (1 + x * x);
-            polinom = new ContFunc(nod, f);
+            ContinousFunction.Polinom f = x => 1 / (1 + x * x);
+            polinom = new ContinousFunction(nod, f);
 
             polinom.GetDivDif(maxOrd);
 
@@ -38,7 +38,7 @@ namespace TestsCalcNum
             double maxErr = 0.001;
             double findNode = 1.15;
 
-            polinom = new ContFunc(nod,valNod);
+            polinom = new ContinousFunction(nod,valNod);
             double value = polinom.InterpolateAitken(findNode, maxGrad, maxErr);
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
@@ -50,11 +50,11 @@ namespace TestsCalcNum
             double result = Math.Pow(1.15, 0.33333);
             int maxGrad = 5;
             double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
-            ContFunc.Polinom f = x => Math.Pow(x, 0.33333);
+            ContinousFunction.Polinom f = x => Math.Pow(x, 0.33333);
             double maxErr = 0.001;
             double findNode = 1.15;
 
-            polinom = new ContFunc(nod, f);
+            polinom = new ContinousFunction(nod, f);
             double value = polinom.InterpolateAitken(findNode, maxGrad, maxErr);
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
@@ -70,7 +70,7 @@ namespace TestsCalcNum
             double maxErr = 0.001;
             double findNode = 1.15;
 
-            polinom = new ContFunc(nod, valNod);
+            polinom = new ContinousFunction(nod, valNod);
             double value = polinom.InterpolateNewton(findNode, maxGrad, maxErr);
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
@@ -82,11 +82,11 @@ namespace TestsCalcNum
             double result = Math.Pow(1.15, 0.33333);
             int maxGrad = 5;
             double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
-            ContFunc.Polinom f = x => Math.Pow(x, 0.3333);
+            ContinousFunction.Polinom f = x => Math.Pow(x, 0.3333);
             double maxErr = 0.00001;
             double findNode = 1.15;
 
-            polinom = new ContFunc(nod, f);
+            polinom = new ContinousFunction(nod, f);
             double value = polinom.InterpolateNewton(findNode, maxGrad, maxErr);
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
@@ -102,7 +102,7 @@ namespace TestsCalcNum
             double maxErr = 0.00025;
             double findNode = 1;
 
-            polinom = new ContFunc(nod, valNod);
+            polinom = new ContinousFunction(nod, valNod);
             double value = polinom.InterpolateTaylor(findNode, maxGrad);
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
