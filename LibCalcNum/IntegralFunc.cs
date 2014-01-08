@@ -106,6 +106,11 @@ namespace LibCalcNum
             Solution = h / (6 * Evaluations) * (sumS + 4 * sumM);
         }
 
+        public void AproxNewton(double evaluations)
+        {
+            throw new NotImplementedException();
+        }
+
         //
         // private methods
         //

@@ -77,5 +77,15 @@ namespace TestsCalcNum
 
             Assert.That(integral.Solution, Is.EqualTo(result).Within(maxErr));
         }
+
+        [Test]
+        public void Newton()
+        {
+            evaluations = 5025;
+
+            integral.AproxNewton(evaluations);
+
+            Assert.That(integral.Solution, Is.EqualTo(result).Within(maxErr));
+        }
     }
 }
