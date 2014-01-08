@@ -18,12 +18,12 @@ namespace LibCalcNum
 
         public ContinousFunction(double[] pNodes, Polinom pF) 
         {
-            Nodes = ArrayToNodes(pNodes, pF);
+            Nodes = Node.ArrayToNodes(pNodes, pF);
         }
 
         public ContinousFunction(double[] pNodes, double[] pValNodes)
         {
-            Nodes = ArrayToNodes(pNodes, pValNodes);
+            Nodes = Node.ArrayToNodes(pNodes, pValNodes);
         }
 
         public void GetDivDif(int maxOrd)
@@ -45,23 +45,6 @@ namespace LibCalcNum
             }
 
             FinalDivDif = DivDif[0, maxOrd - 1];
-        }
-
-        private void sortNodesRelativeToNode(double baseNode)
-        {
-            // sort nodes according to distance from baseNode
-            for (int i = 0; i < Nodes.Count; i++)
-            {
-                for (int j = i + 1; j < Nodes.Count; j++)
-                {
-                    if (Math.Abs(Nodes[i].X - baseNode) > Math.Abs(Nodes[j].X - baseNode))
-                    {
-                        var tmp = Nodes[i];
-                        Nodes[i] = Nodes[j];
-                        Nodes[j] = tmp;
-                    }
-                }
-            }
         }
 
         public double InterpolateAitken(double findNode, int maxGrad, double maxErr)
@@ -141,27 +124,25 @@ namespace LibCalcNum
             return result;
         }
 
-        private List<Node> ArrayToNodes(double[] node, double[] valNode)
-        {
-            List<Node> result = new List<Node>();
-            for (int i = 0; i < valNode.Length; i++)
-            {
-                Node n = node.Length != 1 ? new Node(node[i], valNode[i]) : new Node(node[0], valNode[i]);
-                result.Add(n);
-            }
-            return result;
-        }
+        //
+        // private methods
+        //
 
-        private List<Node> ArrayToNodes(double[] node, Polinom f)
+        private void sortNodesRelativeToNode(double baseNode)
         {
-            List<Node> result = new List<Node>();
-            for (int i = 0; i < node.Length; i++)
+            // sort nodes according to distance from baseNode
+            for (int i = 0; i < Nodes.Count; i++)
             {
-                double valNode = f(node[i]);
-                Node n = new Node(node[i], valNode);
-                result.Add(n);
+                for (int j = i + 1; j < Nodes.Count; j++)
+                {
+                    if (Math.Abs(Nodes[i].X - baseNode) > Math.Abs(Nodes[j].X - baseNode))
+                    {
+                        var tmp = Nodes[i];
+                        Nodes[i] = Nodes[j];
+                        Nodes[j] = tmp;
+                    }
+                }
             }
-            return result;
         }
     }
 }
