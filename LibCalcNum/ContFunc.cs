@@ -11,19 +11,19 @@ namespace LibCalcNum
 
         public delegate double Polinom(double x);
 
-        public ContinousFunction(List<Node> pNodes)
+        public ContinousFunction(List<Node> Nodes)
         {
-            Nodes = new List<Node>(pNodes);
+            this.Nodes = new List<Node>(Nodes);
         }
 
-        public ContinousFunction(double[] pNodes, Polinom pF) 
+        public ContinousFunction(double[] nodes, Polinom function) 
         {
-            Nodes = Node.ArrayToNodes(pNodes, pF);
+            this.Nodes = Node.ArrayToNodes(nodes, function);
         }
 
-        public ContinousFunction(double[] pNodes, double[] pValNodes)
+        public ContinousFunction(double[] nodes, double[] valNodes)
         {
-            Nodes = Node.ArrayToNodes(pNodes, pValNodes);
+            this.Nodes = Node.ArrayToNodes(nodes, valNodes);
         }
 
         public void GetDivDif(int maxOrd)

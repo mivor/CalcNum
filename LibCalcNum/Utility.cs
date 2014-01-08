@@ -11,10 +11,10 @@ namespace LibCalcNum
         public double X { get; set; }
         public double Fx { get; set; }
 
-        public Node(double pX, double pFx)
+        public Node(double x, double fx)
         {
-            X = pX;
-            Fx = pFx;
+            this.X = x;
+            this.Fx = fx;
         }
 
         public static  List<Node> ArrayToNodes(double[] node, double[] valNode)
