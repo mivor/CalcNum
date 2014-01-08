@@ -9,30 +9,35 @@ namespace CalcNum
 {
     class Program
     {
+
+        static ContinousFunction polinom;
+        static ContinousFunction.Polinom f;
+        static double[] nod;
+        static double[] valNod;
+        static int maxGrad;
+        static double maxErr;
+        static double result;
+        static double findNode;
+
+        private static void Init3rdRoot()
+        {
+            nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
+            valNod = new double[] { 1, 1.032, 1.091, 1.145, 1.17 };
+            f = x => Math.Pow(x, 0.3333);
+            maxGrad = 5;
+            maxErr = 0.001;
+            findNode = 1.15;
+            result = Math.Pow(1.15, 0.33333);
+        }
+
         static void Main(string[] args)
         {
-            //int ordMax = 5;
-            //double[] nod = new double[] { -3, -1, 0, 1, 1.5 };
-            //ContFunc.func f = x => 1 / (1 + x * x);
-            //ContFunc lib = new ContFunc(nod, f);
+            Init3rdRoot();
+            polinom = new ContinousFunction(nod, valNod);
 
-            //lib.GetDifDiv(ordMax);
-            //Console.WriteLine("OUT: {0}", lib.DifDivFinal);
-            // 0.3076
-            // 1.04768
+            polinom.GetDivDif(maxGrad);
+            double value = polinom.InterpolateNewton(findNode, maxGrad, maxErr);
 
-            double result = Math.Pow(1.15, 0.33333);
-            int gradMax = 5;
-            double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
-            ContinousFunction.Polinom f = x => Math.Pow(x, 0.3333);
-            //double[] valNod = new double[] { 1, 1.032, 1.091, 1.145, 1.17 };
-            double errMax = 0.00001;
-            double findNode = 1.15;
-
-            ContinousFunction polinom = new ContinousFunction(nod, f);
-
-            double value = polinom.InterpolateNewton(findNode, gradMax, errMax);
-            
             Console.ReadLine();
         }
     }

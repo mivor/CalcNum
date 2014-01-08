@@ -11,34 +11,44 @@ namespace TestsCalcNum
     [TestFixture]
     class TestContFunc
     {
-
         ContinousFunction polinom;
+        ContinousFunction.Polinom f;
+        double[] nod;
+        double[] valNod;
+        int maxGrad;
+        double maxErr;
+        double result;
+        double findNode;
+
+        private void Init3rdRoot()
+        {
+            nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
+            valNod = new double[] { 1, 1.032, 1.091, 1.145, 1.17 };
+            f = x => Math.Pow(x, 0.3333);
+            maxGrad = 5;
+            maxErr = 0.001;
+            findNode = 1.15;
+            result = Math.Pow(1.15, 0.33333);
+        }
 
         [Test]
         public void DiferenteDivizate()
         {
-            double result = 0.3076;
-            int maxOrd = 5;
-            double[] nod = new double[] {-3, -1, 0, 1, 1.5};
-            ContinousFunction.Polinom f = x => 1 / (1 + x * x);
-            polinom = new ContinousFunction(nod, f);
+            Init3rdRoot();
+            double result = -0.083333333333360363;
+            polinom = new ContinousFunction(nod, valNod);
 
-            polinom.GetDivDif(maxOrd);
+            polinom.GetDivDif(maxGrad);
 
-            Assert.That(polinom.FinalDivDif, Is.EqualTo(result).Within(0.001));
+            Assert.That(polinom.FinalDivDif, Is.EqualTo(result));
         }
 
         [Test]
         public void LagrangeAitken()
         {
-            double result = Math.Pow(1.15, 0.33333);
-            int maxGrad = 5;
-            double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
-            double[] valNod = new double[] { 1, 1.032, 1.091, 1.145, 1.17 };
-            double maxErr = 0.001;
-            double findNode = 1.15;
-
+            Init3rdRoot();
             polinom = new ContinousFunction(nod,valNod);
+
             double value = polinom.InterpolateAitken(findNode, maxGrad, maxErr);
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
@@ -47,14 +57,9 @@ namespace TestsCalcNum
         [Test]
         public void LagrangeAitken_withFunction()
         {
-            double result = Math.Pow(1.15, 0.33333);
-            int maxGrad = 5;
-            double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
-            ContinousFunction.Polinom f = x => Math.Pow(x, 0.33333);
-            double maxErr = 0.001;
-            double findNode = 1.15;
-
+            Init3rdRoot();
             polinom = new ContinousFunction(nod, f);
+
             double value = polinom.InterpolateAitken(findNode, maxGrad, maxErr);
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
@@ -63,14 +68,9 @@ namespace TestsCalcNum
         [Test]
         public void LagrangeNewton()
         {
-            double result = Math.Pow(1.15, 0.33333);
-            int maxGrad = 5;
-            double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
-            double[] valNod = new double[] { 1, 1.032, 1.091, 1.145, 1.17 };
-            double maxErr = 0.001;
-            double findNode = 1.15;
-
+            Init3rdRoot();
             polinom = new ContinousFunction(nod, valNod);
+
             double value = polinom.InterpolateNewton(findNode, maxGrad, maxErr);
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
@@ -79,14 +79,10 @@ namespace TestsCalcNum
         [Test]
         public void LagrangeNewton_withFunction()
         {
-            double result = Math.Pow(1.15, 0.33333);
-            int maxGrad = 5;
-            double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
-            ContinousFunction.Polinom f = x => Math.Pow(x, 0.3333);
+            Init3rdRoot();
             double maxErr = 0.00001;
-            double findNode = 1.15;
-
             polinom = new ContinousFunction(nod, f);
+
             double value = polinom.InterpolateNewton(findNode, maxGrad, maxErr);
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
@@ -96,13 +92,13 @@ namespace TestsCalcNum
         public void Taylor()
         {
             double result = Math.E;
-            int maxGrad = 7;
             double[] nod = new double[] { 0 };
             double[] valNod = new double[] { 1, 1, 1, 1, 1, 1, 1 };
+            int maxGrad = 7;
             double maxErr = 0.00025;
             double findNode = 1;
-
             polinom = new ContinousFunction(nod, valNod);
+
             double value = polinom.InterpolateTaylor(findNode, maxGrad);
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
