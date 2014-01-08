@@ -33,11 +33,7 @@ namespace LibCalcNum
             {
                 prevResult = result;
                 h = h / 2;
-                double sum = 0;
-                for (int i = 0; i < n; i++)
-                {
-                    sum += F(LimitA + (2 * i - 1) * h);
-                }
+                double sum = GetRombergSum(n, h);
                 n *= 2; 
                 sum *= h;
                 result = prevResult / 2 + sum;
@@ -82,11 +78,7 @@ namespace LibCalcNum
                 h = h / 2;
                 n *= 2;
                 sum2 = sum2 + sum1;
-                sum1 = 0;
-                for (int i = 0; i < n; i++)
-                {
-                    sum1 += F(LimitA + (2 * i - 1) * h);
-                }
+                sum1 = GetRombergSum(n, h);
                 result = h / 3 * (sumFx + 2 * sum2 + 4 * sum1);
             } while (Math.Abs(result - prevResult) >= maxErr);
 
@@ -132,6 +124,16 @@ namespace LibCalcNum
                 sum += curentFx + prevFx;
             }
 
+            return sum;
+        }
+
+        private double GetRombergSum(double n, double h)
+        {
+            double sum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                sum += F(LimitA + (2 * i - 1) * h);
+            }
             return sum;
         }
     }
