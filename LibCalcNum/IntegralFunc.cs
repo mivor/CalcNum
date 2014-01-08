@@ -48,5 +48,23 @@ namespace LibCalcNum
 
         }
 
+
+        public void AproxTrapezoidClassic(double evaluations)
+        {
+            this.Evaluations = evaluations;
+            double h = LimitB - LimitA;
+            double sum = 0;
+            double curentFx = F(LimitA);
+            double prevFx;
+
+            for (int i = 1; i < Evaluations; i++)
+            {
+                prevFx = curentFx;
+                curentFx = F(LimitA + i * h / Evaluations);
+                sum += curentFx + prevFx;
+            }
+
+            Solution =  h / (2 * Evaluations) * sum;
+        }
     }
 }

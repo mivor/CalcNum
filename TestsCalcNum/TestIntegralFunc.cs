@@ -31,7 +31,7 @@ namespace TestsCalcNum
         {
             double limitA = 0;
             double limitB = 1;
-            double evaluations = 10;
+            double evaluations = 5025;
             double maxErr = 0.0001;
             double result = Math.Log(2);
             IntegralFunc integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
