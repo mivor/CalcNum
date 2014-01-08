@@ -108,7 +108,25 @@ namespace LibCalcNum
 
         public void AproxNewton(double evaluations)
         {
-            throw new NotImplementedException();
+            this.Evaluations = evaluations;
+            double h = LimitB - LimitA;
+            Node curentNode = new Node(LimitA, F);
+            Node prevNode;
+            double sumS, sumU, sumV;
+            sumS = sumU = sumV = 0;
+
+            for (int i = 1; i < Evaluations; i++)
+            {
+                prevNode = curentNode;
+                curentNode = new Node(LimitA + i * h / Evaluations, F);
+                double y = prevNode.X + ( curentNode.X - prevNode.X) / 3;
+                double z = prevNode.X + 2 * ( curentNode.X - prevNode.X) / 3;
+                sumS += curentNode.Fx + prevNode.Fx;
+                sumU += F(y);
+                sumV += F(z);
+            }
+
+            Solution = h / (8 * Evaluations) * (sumS + 3 * (sumU + sumV));
         }
 
         //
