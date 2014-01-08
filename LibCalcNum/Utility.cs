@@ -17,6 +17,12 @@ namespace LibCalcNum
             this.Fx = fx;
         }
 
+        public Node(double x, Func<double, double> f)
+        {
+            this.X = x;
+            this.Fx = f(x);
+        }
+
         public static  List<Node> ArrayToNodes(double[] node, double[] valNode)
         {
             List<Node> result = new List<Node>();
@@ -33,8 +39,7 @@ namespace LibCalcNum
             List<Node> result = new List<Node>();
             for (int i = 0; i < node.Length; i++)
             {
-                double valNode = f(node[i]);
-                Node n = new Node(node[i], valNode);
+                Node n = new Node(node[i], f);
                 result.Add(n);
             }
             return result;
