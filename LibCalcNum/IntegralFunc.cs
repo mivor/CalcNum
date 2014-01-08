@@ -47,17 +47,22 @@ namespace LibCalcNum
         public void AproxTrapezoidClassic(double evaluations)
         {
             this.Evaluations = evaluations;
-            double h = LimitB - LimitA;
+            List<Sum> sums = new List<Sum>();
+            sums.Add(new Sum((nowX, prevX) => F(nowX) + F(prevX)));
+            GetClassicSum(sums);
 
-            Solution =  h / (2 * Evaluations) * GetClassicSum();
+            Solution = (LimitB - LimitA) / (2 * Evaluations) * sums[0].Value;
         }
 
         public void AproxEulerMacLaurin(Func<double, double> derivate, double evaluations)
         {
             this.Evaluations = evaluations;
-            double h = LimitB - LimitA;
+            List<Sum> sums = new List<Sum>();
+            sums.Add(new Sum((nowX, prevX) => F(nowX) + F(prevX)));
+            GetClassicSum(sums);
 
-            Solution = h / (2 * Evaluations) * GetClassicSum() - Math.Pow(h, 2) / (12 * Math.Pow(Evaluations, 2)
+            Solution = (LimitB - LimitA) / (2 * Evaluations) * sums[0].Value 
+                - Math.Pow((LimitB - LimitA), 2) / (12 * Math.Pow(Evaluations, 2)
                 * (derivate(LimitB) - derivate(LimitA)));
         }
 
@@ -89,66 +94,61 @@ namespace LibCalcNum
         public void AproxSimpsonClassic(double evaluations)
         {
             this.Evaluations = evaluations;
-            double h = LimitB - LimitA;
-            Node curentNode = new Node(LimitA, F);
-            Node prevNode;
-            double sumS, sumM;
-            sumS = sumM = 0;
+            List<Sum> sums = new List<Sum>();
+            sums.Add(new Sum( (nowX, prevX) => F(nowX) + F(prevX) ));
+            sums.Add(new Sum((nowX, prevX) => F((nowX + prevX) / 2)));
+            GetClassicSum(sums);
 
-            for (int i = 1; i < Evaluations; i++)
-            {
-                prevNode = curentNode;
-                curentNode = new Node(LimitA + i * h / Evaluations, F);
-                sumS += curentNode.Fx + prevNode.Fx;
-                sumM += F((curentNode.X + prevNode.X) / 2);
-            }
-
-            Solution = h / (6 * Evaluations) * (sumS + 4 * sumM);
+            Solution = (LimitB - LimitA) / (6 * Evaluations) * (sums[0].Value + 4 * sums[1].Value);
         }
 
         public void AproxNewton(double evaluations)
         {
             this.Evaluations = evaluations;
-            double h = LimitB - LimitA;
-            Node curentNode = new Node(LimitA, F);
-            Node prevNode;
-            double sumS, sumU, sumV;
-            sumS = sumU = sumV = 0;
+            List<Sum> sums = new List<Sum>();
+            sums.Add(new Sum(( nowX, prevX) => F(nowX) + F(prevX) ));
+            sums.Add(new Sum(( nowX, prevX) => F(prevX + (nowX - prevX) / 3) ));
+            sums.Add(new Sum(( nowX, prevX) => F(prevX + 2 * (nowX - prevX) / 3) ));
+            GetClassicSum(sums);
 
-            for (int i = 1; i < Evaluations; i++)
-            {
-                prevNode = curentNode;
-                curentNode = new Node(LimitA + i * h / Evaluations, F);
-                double y = ( curentNode.X - prevNode.X) / 3;
-                double z = 2 * y + prevNode.X;
-                y = y + prevNode.X;
-                sumS += curentNode.Fx + prevNode.Fx;
-                sumU += F(y);
-                sumV += F(z);
-            }
-
-            Solution = h / (8 * Evaluations) * (sumS + 3 * (sumU + sumV));
+            Solution = (LimitB - LimitA) / (8 * Evaluations) * (sums[0].Value + 3 * (sums[1].Value + sums[2].Value));
         }
 
         //
         // private methods
         //
 
-        private double GetClassicSum()
+        private class Sum
         {
-            double sum = 0;
-            double h = LimitB - LimitA;
+            public double Value { get; set; }
+            public Func<double, double, double> F { get; private set; }
+
+            public Sum(Func<double, double, double> function, double val = 0)
+            {
+                this.Value = val;
+                this.F = function;
+            }
+
+            public void UpdateValue(double nowX, double prevX)
+            {
+                Value += F(nowX, prevX);
+            }
+        }
+
+        private void GetClassicSum(List<Sum> sums )
+        {
             double nowX = LimitA;
             double prevX;
 
             for (int i = 1; i < Evaluations; i++)
             {
                 prevX = nowX;
-                nowX = LimitA + i * h / Evaluations;
-                sum += F(nowX) + F(prevX);
+                nowX = LimitA + i * (LimitB - LimitA) / Evaluations;
+                foreach (Sum s in sums)
+                {
+                    s.UpdateValue(nowX, prevX);
+                }
             }
-
-            return sum;
         }
 
         private double GetRombergSum(double n, double h)
