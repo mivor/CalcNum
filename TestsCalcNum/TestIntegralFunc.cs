@@ -11,16 +11,28 @@ namespace TestsCalcNum
     [TestFixture]
     class TestIntegralFunc
     {
+        double limitA;
+        double limitB;
+        double maxErr;
+        double result;
+        double evaluations;
+        IntegralFunc integral;
+
+        [SetUp]
+        public void SetUp()
+        {
+            limitA = 0;
+            limitB = 1;
+            maxErr = 0.0001;
+            result = Math.Log(2);
+            integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
+        }
 
         [Test]
         public void TrapezoidRomberg()
         {
-            double limitA = 0;
-            double limitB = 1;
-            double maxErr = 0.0001;
-            double result = Math.Log(2);
-            IntegralFunc integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
-            
+            maxErr = 0.0001;
+
             integral.AproxTrapezoidRomberg(maxErr);
 
             Assert.That(integral.Solution, Is.EqualTo(result).Within(maxErr));
@@ -29,12 +41,7 @@ namespace TestsCalcNum
         [Test]
         public void TrapezoidClassic()
         {
-            double limitA = 0;
-            double limitB = 1;
-            double evaluations = 5025;
-            double maxErr = 0.0001;
-            double result = Math.Log(2);
-            IntegralFunc integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
+            evaluations = 5025;
 
             integral.AproxTrapezoidClassic(evaluations);
 
@@ -44,14 +51,29 @@ namespace TestsCalcNum
         [Test]
         public void EulerMacLaurin()
         {
-            double limitA = 0;
-            double limitB = 1;
-            double evaluations = 5025;
-            double maxErr = 0.0001;
-            double result = Math.Log(2);
-            IntegralFunc integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
+            evaluations = 5025;
 
             integral.AproxEulerMacLaurin( x => -1 / Math.Pow((x + 1),2), evaluations);
+
+            Assert.That(integral.Solution, Is.EqualTo(result).Within(maxErr));
+        }
+
+        [Test]
+        public void SimpsonRomberg()
+        {
+            maxErr = 0.0001;
+
+            integral.AproxSimpsonRomberg(maxErr);
+
+            Assert.That(integral.Solution, Is.EqualTo(result).Within(maxErr));
+        }
+
+        [Test]
+        public void SimpsonClassic()
+        {
+            evaluations = 5025;
+
+            integral.AproxSimpsonClassic(evaluations);
 
             Assert.That(integral.Solution, Is.EqualTo(result).Within(maxErr));
         }
