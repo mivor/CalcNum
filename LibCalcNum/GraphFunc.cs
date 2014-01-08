@@ -23,11 +23,8 @@ namespace LibCalcNum
 
         public void GetRegressionLine()
         {
-            double sumX = 0;
-            double sumY = 0;
-            double sumXY = 0;
-            double sumX2 = 0;
-            double d, d1, d2;
+            double d, d1, d2, sumX, sumY, sumXY, sumX2;
+            sumX = sumY = sumXY = sumX2 = 0;
 
             foreach (Node n in Nodes)
             {
