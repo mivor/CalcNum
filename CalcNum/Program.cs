@@ -11,7 +11,7 @@ namespace CalcNum
     {
 
         static ContinousFunction polinom;
-        static ContinousFunction.Polinom f;
+        static Func<double, double> f;
         static double[] nod;
         static double[] valNod;
         static int maxGrad;

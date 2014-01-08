@@ -8,7 +8,7 @@ namespace TestsCalcNum
     class TestContFunc
     {
         ContinousFunction polinom;
-        ContinousFunction.Polinom f;
+        Func<double, double> f;
         double[] nod;
         double[] valNod;
         int maxGrad;

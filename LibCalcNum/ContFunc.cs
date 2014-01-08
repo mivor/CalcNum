@@ -9,14 +9,12 @@ namespace LibCalcNum
         public double[,] DivDif { get; private set; }
         public double FinalDivDif { get; private set; }
 
-        public delegate double Polinom(double x);
-
         public ContinousFunction(List<Node> Nodes)
         {
             this.Nodes = new List<Node>(Nodes);
         }
 
-        public ContinousFunction(double[] nodes, Polinom function) 
+        public ContinousFunction(double[] nodes, Func<double, double> function) 
         {
             this.Nodes = Node.ArrayToNodes(nodes, function);
         }

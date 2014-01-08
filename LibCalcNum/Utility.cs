@@ -28,7 +28,7 @@ namespace LibCalcNum
             return result;
         }
 
-        public static List<Node> ArrayToNodes(double[] node, ContinousFunction.Polinom f)
+        public static List<Node> ArrayToNodes(double[] node, Func<double, double> f)
         {
             List<Node> result = new List<Node>();
             for (int i = 0; i < node.Length; i++)
