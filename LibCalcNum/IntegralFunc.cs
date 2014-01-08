@@ -11,7 +11,7 @@ namespace LibCalcNum
         public double LimitA { get; private set; }
         public double LimitB { get; private set; }
         public Func<double, double> F { get; private set; }
-        public double Evaluation { get; private set; }
+        public double Evaluations { get; private set; }
         public double Solution { get; private set; }
 
         public IntegralFunc(Func<double, double> function, double limitA, double limitB)
@@ -25,7 +25,6 @@ namespace LibCalcNum
         {
             // initialize
             double prevResult;
-            int p = 0;
             double h = LimitB - LimitA;
             double result = h / 2 * ( F(LimitA) + F(LimitB) );
             double n = 1;
@@ -33,7 +32,6 @@ namespace LibCalcNum
             do
             {
                 prevResult = result;
-                p++;
                 h = h / 2;
                 double sum = 0;
                 for (int i = 0; i < n; i++)
@@ -45,7 +43,7 @@ namespace LibCalcNum
                 n *= 2; 
             } while (Math.Abs(result - prevResult) >= maxErr);
 
-            Evaluation = p;
+            Evaluations = Math.Log(n, 2);
             Solution = result;
 
         }

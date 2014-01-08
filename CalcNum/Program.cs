@@ -41,12 +41,13 @@ namespace CalcNum
             double limitA = 0;
             double limitB = 1;
             ////double integrationPoints = 10;
-            double maxErr = 0.001;
+            double maxErr = 0.0001;
             double result = Math.Log(2);
             IntegralFunc integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
 
             integral.AproxTrapezoidRomberg(maxErr);
 
+            Console.WriteLine(integral.Evaluations);
             Console.ReadLine();
         }
     }
