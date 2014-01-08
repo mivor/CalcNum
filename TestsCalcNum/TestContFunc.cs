@@ -91,5 +91,21 @@ namespace TestsCalcNum
 
             Assert.That(value, Is.EqualTo(result).Within(maxErr));
         }
+
+        [Test]
+        public void Taylor()
+        {
+            double result = Math.E;
+            int maxGrad = 7;
+            double[] nod = new double[] { 0 };
+            double[] valNod = new double[] { 1, 1, 1, 1, 1, 1, 1 };
+            double maxErr = 0.00025;
+            double findNode = 1;
+
+            polinom = new ContFunc(nod, valNod);
+            double value = polinom.InterpolateTaylor(findNode, maxGrad);
+
+            Assert.That(value, Is.EqualTo(result).Within(maxErr));
+        }
     }
 }

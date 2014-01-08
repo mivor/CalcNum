@@ -132,5 +132,21 @@ namespace LibCalcNum
             // if we are here we did NOT find an answer
             return double.NaN;
         }
+
+        public double InterpolateTaylor(double findNode, int maxGrad)
+        {
+            double[] factorial = new double[maxGrad];
+            double result = ValNodes[0];
+            double constant = findNode - Nodes[0];
+            factorial[0] = 1;
+
+            for (int k = 1; k < maxGrad; k++)
+            {
+                factorial[k] = factorial[k - 1] * k;
+                result = result + 1 / factorial[k] * Math.Pow(constant, k) * ValNodes[k];
+            }
+
+            return result;
+        }
     }
 }
