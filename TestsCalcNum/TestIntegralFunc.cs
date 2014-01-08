@@ -51,7 +51,7 @@ namespace TestsCalcNum
             double result = Math.Log(2);
             IntegralFunc integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
 
-            integral.AproxEulerMacLaurin(evaluations);
+            integral.AproxEulerMacLaurin( x => -1 / Math.Pow((x + 1),2), evaluations);
 
             Assert.That(integral.Solution, Is.EqualTo(result).Within(maxErr));
         }
