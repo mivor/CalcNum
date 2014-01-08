@@ -38,9 +38,9 @@ namespace LibCalcNum
                 {
                     sum += F(LimitA + (2 * i - 1) * h);
                 }
+                n *= 2; 
                 sum *= h;
                 result = prevResult / 2 + sum;
-                n *= 2; 
             } while (Math.Abs(result - prevResult) >= maxErr);
 
             Evaluations = Math.Log(n, 2);
@@ -67,12 +67,51 @@ namespace LibCalcNum
 
         public void AproxSimpsonRomberg(double maxErr)
         {
-            throw new NotImplementedException();
+            // initialize
+            double prevResult;
+            double h = (LimitB - LimitA) / 2;
+            double sumFx = F(LimitA) + F(LimitB);
+            double n = 1;
+            double sum1 = F(LimitA + h);
+            double sum2 = 0;
+            double result = h / 3 * (sumFx + 2 * sum2 + 4 * sum1);
+
+            do
+            {
+                prevResult = result;
+                h = h / 2;
+                n *= 2;
+                sum2 = sum2 + sum1;
+                sum1 = 0;
+                for (int i = 0; i < n; i++)
+                {
+                    sum1 += F(LimitA + (2 * i - 1) * h);
+                }
+                result = h / 3 * (sumFx + 2 * sum2 + 4 * sum1);
+            } while (Math.Abs(result - prevResult) >= maxErr);
+
+            Evaluations = Math.Log(n, 2);
+            Solution = result;
         }
 
         public void AproxSimpsonClassic(double evaluations)
         {
-            throw new NotImplementedException();
+            this.Evaluations = evaluations;
+            double h = LimitB - LimitA;
+            Node curentNode = new Node(LimitA, F);
+            Node prevNode;
+            double sumS, sumM;
+            sumS = sumM = 0;
+
+            for (int i = 1; i < Evaluations; i++)
+            {
+                prevNode = curentNode;
+                curentNode = new Node(LimitA + i * h / Evaluations, F);
+                sumS += curentNode.Fx + prevNode.Fx;
+                sumM += F((curentNode.X + prevNode.X) / 2);
+            }
+
+            Solution = h / (6 * Evaluations) * (sumS + 4 * sumM);
         }
 
         //
