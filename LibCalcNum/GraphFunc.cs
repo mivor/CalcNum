@@ -23,7 +23,25 @@ namespace LibCalcNum
 
         public void GetRegressionLine()
         {
-            throw new NotImplementedException();
+            double sumX = 0;
+            double sumY = 0;
+            double sumXY = 0;
+            double sumX2 = 0;
+            double d, d1, d2;
+
+            foreach (Node n in Nodes)
+            {
+                sumX += n.X;
+                sumY += n.Fx;
+                sumXY += n.X * n.Fx;
+                sumX2 += Math.Pow(n.X, 2);
+            }
+
+            d = Nodes.Count * sumX2 - (sumX * sumX); //too big
+            d1 = Nodes.Count * sumXY - (sumX * sumY); //too big
+            d2 = sumX2 * sumY - sumXY * sumX; // works
+
+            RegressionLine = new RegLine(d1 / d, d2 / d);
         }
 
         public class RegLine
