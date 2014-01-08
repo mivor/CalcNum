@@ -66,5 +66,35 @@ namespace LibCalcNum
 
             Solution =  h / (2 * Evaluations) * sum;
         }
+
+        public void AproxEulerMacLaurin(Func<double, double> derivate, double evaluations)
+        {
+            this.Evaluations = evaluations;
+            double h = LimitB - LimitA;
+            double sum = 0;
+            double curentFx = F(LimitA);
+            double prevFx;
+
+            for (int i = 1; i < Evaluations; i++)
+            {
+                prevFx = curentFx;
+                curentFx = F(LimitA + i * h / Evaluations);
+                sum += curentFx + prevFx;
+            }
+
+            Solution = h / (2 * Evaluations) * sum - Math.Pow(h, 2) / (12 * Math.Pow(Evaluations, 2)
+                * (derivate(LimitB) - derivate(LimitA)));
+        }
+
+
+        //
+        // private methods
+        //
+
+        private double GetTrapezoidSum()
+        {
+            double sum = 0;
+            return sum;
+        }
     }
 }
