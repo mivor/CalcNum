@@ -15,8 +15,15 @@ namespace TestsCalcNum
         [Test]
         public void TrapezoidRomberg()
         {
-            IntegralFunc integral = new IntegralFunc();
-            integral.TrapezoidRomberg(22, x => x * x);
+            double limitA = 0;
+            double limitB = 1;
+            double maxErr = 0.001;
+            double result = Math.Log(2);
+            IntegralFunc integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
+            
+            integral.AproxTrapezoidRomberg(maxErr);
+
+            Assert.That(integral.Solution, Is.EqualTo(result).Within(maxErr));
         }
     }
 }

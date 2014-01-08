@@ -32,11 +32,20 @@ namespace CalcNum
 
         static void Main(string[] args)
         {
-            Init3rdRoot();
-            polinom = new ContinousFunction(nod, valNod);
+            //Init3rdRoot();
+            //polinom = new ContinousFunction(nod, valNod);
 
-            polinom.GetDivDif(maxGrad);
-            double value = polinom.InterpolateNewton(findNode, maxGrad, maxErr);
+            //polinom.GetDivDif(maxGrad);
+            //double value = polinom.InterpolateNewton(findNode, maxGrad, maxErr);
+
+            double limitA = 0;
+            double limitB = 1;
+            ////double integrationPoints = 10;
+            double maxErr = 0.001;
+            double result = Math.Log(2);
+            IntegralFunc integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
+
+            integral.AproxTrapezoidRomberg(maxErr);
 
             Console.ReadLine();
         }
