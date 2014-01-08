@@ -48,7 +48,7 @@ namespace LibCalcNum
                 }
             }
 
-            FinalDivDif = DivDif[maxOrd - 1, 0];
+            FinalDivDif = DivDif[0, maxOrd - 1];
         }
 
         private void sortNodesRelativeToNode(double baseNode)
