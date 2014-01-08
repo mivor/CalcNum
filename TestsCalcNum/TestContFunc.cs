@@ -67,7 +67,7 @@ namespace TestsCalcNum
             int maxGrad = 5;
             double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
             double[] valNod = new double[] { 1, 1.032, 1.091, 1.145, 1.17 };
-            double maxErr = 0.00001;
+            double maxErr = 0.001;
             double findNode = 1.15;
 
             polinom = new ContFunc(nod, valNod);
@@ -82,7 +82,7 @@ namespace TestsCalcNum
             double result = Math.Pow(1.15, 0.33333);
             int maxGrad = 5;
             double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
-            ContFunc.Polinom f = x => Math.Pow(x, 0.33333);
+            ContFunc.Polinom f = x => Math.Pow(x, 0.3333);
             double maxErr = 0.00001;
             double findNode = 1.15;
 

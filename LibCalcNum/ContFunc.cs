@@ -36,15 +36,15 @@ namespace LibCalcNum
         {
             DivDif = new double[maxOrd, maxOrd];
 
-            for (int i = 0; i < maxOrd; i++)
+            for (int row = 0; row < maxOrd; row++)
             {
-                DivDif[i, 0] = F(Nodes[i]);
+                DivDif[row, 0] = ValNodes[row];
             }
-            for (int k = 1; k < maxOrd; k++)
+            for (int col = 1; col < maxOrd; col++) //j
             {
-                for (int i = 0; i < (maxOrd - k); i++)
+                for (int row = 0; row < (maxOrd - col); row++) //k
                 {
-                    DivDif[i,k] = (DivDif[i+1,k-1] - DivDif[i,k-1]) / (Nodes[i+k] - Nodes[i]);
+                    DivDif[row,col] = ( DivDif[row+1,col-1] - DivDif[row,col-1] ) / ( Nodes[row+col] - Nodes[row] );
                 }
             }
 
@@ -59,7 +59,7 @@ namespace LibCalcNum
             {
                 for (int j = i + 1; j < Nodes.Length; j++)
                 {
-                    if (Nodes[i] - baseNode > Nodes[j] - baseNode)
+                    if (Math.Abs(Nodes[i] - baseNode) > Math.Abs(Nodes[j] - baseNode))
                     {
                         tmp = Nodes[i];
                         Nodes[i] = Nodes[j];
@@ -107,6 +107,30 @@ namespace LibCalcNum
         public double InterpolateNewton(double findNode, int maxGrad, double maxErr)
         {
             sortNodesRelativeToNode(findNode);
+
+            GetDivDif(maxGrad);
+
+            double result = ValNodes[0];
+            for (int k = 1; k < maxGrad; k++)
+            {
+                double prevResult = result;
+                double multiplier = 1;
+                for (int i = 0; i < k; i++)
+                {
+                    multiplier *= (findNode - Nodes[i]);
+                }
+
+                result = prevResult + (multiplier * DivDif[0, k]);
+
+                if (Math.Abs(result - prevResult) < maxErr)
+                {
+                    // Found right value!!!
+                    return result;
+                }
+            }
+
+            // if we are here we did NOT find an answer
+            return double.NaN;
         }
     }
 }

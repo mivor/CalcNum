@@ -24,13 +24,14 @@ namespace CalcNum
             double result = Math.Pow(1.15, 0.33333);
             int gradMax = 5;
             double[] nod = new double[] { 1.0, 1.1, 1.3, 1.5, 1.6 };
-            double[] valNod = new double[] { 1, 1.032, 1.091, 1.145, 1.17 };
-            double errMax = 0.001;
+            ContFunc.Polinom f = x => Math.Pow(x, 0.3333);
+            //double[] valNod = new double[] { 1, 1.032, 1.091, 1.145, 1.17 };
+            double errMax = 0.00001;
             double findNode = 1.15;
 
-            ContFunc polinom = new ContFunc(nod, valNod);
+            ContFunc polinom = new ContFunc(nod, f);
 
-            double value = polinom.InterpolateAitken(findNode, gradMax, errMax);
+            double value = polinom.InterpolateNewton(findNode, gradMax, errMax);
             
             Console.ReadLine();
         }
