@@ -65,6 +65,16 @@ namespace LibCalcNum
                 * (derivate(LimitB) - derivate(LimitA)));
         }
 
+        public void AproxSimpsonRomberg(double maxErr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AproxSimpsonClassic(double evaluations)
+        {
+            throw new NotImplementedException();
+        }
+
         //
         // private methods
         //
