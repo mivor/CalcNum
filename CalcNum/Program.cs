@@ -38,16 +38,23 @@ namespace CalcNum
             //polinom.GetDivDif(maxGrad);
             //double value = polinom.InterpolateNewton(findNode, maxGrad, maxErr);
 
-            double limitA = 0;
-            double limitB = 1;
-            ////double integrationPoints = 10;
-            double maxErr = 0.0001;
-            double result = Math.Log(2);
-            IntegralFunc integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
+            //double limitA = 0;
+            //double limitB = 1;
+            //////double integrationPoints = 10;
+            //double maxErr = 0.0001;
+            //double result = Math.Log(2);
+            //IntegralFunc integral = new IntegralFunc(x => 1 / (x + 1), limitA, limitB);
 
-            integral.AproxTrapezoidRomberg(maxErr);
+            //integral.AproxTrapezoidRomberg(maxErr);
+            double[,] matrix = new double[3, 3] { { 2, 2, 2 }, { 1, -1, 0 }, { 3, 1, 2 } };
+            double[] constTerms = new double[3] { 6, 2, 8 };
+            double[] result = new double[3] { 2, 0, 1 };
 
-            Console.WriteLine(integral.Evaluations);
+            LinearSystem system = new LinearSystem(matrix, constTerms);
+
+            system.ResolveGauss();
+
+            //Console.WriteLine(integral.Evaluations);
             Console.ReadLine();
         }
     }
