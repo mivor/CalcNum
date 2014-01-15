@@ -13,6 +13,8 @@ namespace LibCalcNum
         public double[,] Matrix { get; private set; }
         public double[] ConsTerms { get; private set; }
         public int MatOrd { get; private set; }
+        public double maxErr { get; private set; }
+        public double Evaluations { get; private set; }
 
 
         public LinearSystem(double[,] matrix, double[] consTerms)
@@ -92,6 +94,11 @@ namespace LibCalcNum
             Array.Sort(Solution);
         }
 
+        public void ResolveIacobi(double maxErr)
+        {
+            throw new NotImplementedException();
+        }
+
         //
         // private methods
         //
@@ -102,6 +109,5 @@ namespace LibCalcNum
             term1 = term2;
             term2 = tmp;
         }
-
     }
 }
