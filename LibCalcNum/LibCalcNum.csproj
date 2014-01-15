@@ -42,6 +42,7 @@
     <Compile Include="ContFunc.cs" />
     <Compile Include="GraphFunc.cs" />
     <Compile Include="IntegralFunc.cs" />
+    <Compile Include="LinearSystem.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -46,6 +46,7 @@
     <Compile Include="TestContFunc.cs" />
     <Compile Include="TestGraphFunc.cs" />
     <Compile Include="TestIntegralFunc.cs" />
+    <Compile Include="TestLinearSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
